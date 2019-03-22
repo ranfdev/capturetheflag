@@ -52,3 +52,7 @@ minetest.register_chatcommand("set_class", {
 		end
 	end
 })
+
+ctf_colors.set_skin = function(player, color)
+	ctf_classes.set_skin(player, color, ctf_classes.get(player))
+end

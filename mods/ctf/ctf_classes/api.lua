@@ -9,6 +9,12 @@ function ctf_classes.register(cname, def)
 	def.cons   = def.cons or {}
 end
 
+function ctf_classes.set_skin(player, color, class)
+	player:set_properties({
+		textures = {"ctf_classes_skins_" .. class.name .. "_" .. (color or "blue") .. ".png"}
+	})
+end
+
 function ctf_classes.get(player)
 	if type(player) == "string" then
 		player = minetest.get_player_by_name(player)
@@ -37,13 +43,12 @@ local function set_max_hp(player, max_hp)
 	elseif new_hp > cur_hp then
 		player:set_hp(new_hp)
 	end
-
-	--TODO: update HUD
 end
 
 function ctf_classes.update(player)
 	local class = ctf_classes.get(player)
-	print("Class: " .. class.name)
+	local color, _ = ctf_colors.get_color(ctf.player(player:get_player_name()))
+
 	set_max_hp(player, class.max_hp)
-	print(" - max_hp = " .. class.max_hp)
+	ctf_classes.set_skin(player, color, class)
 end
