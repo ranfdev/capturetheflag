@@ -10,7 +10,7 @@ dofile(minetest.get_modpath("ctf_classes") .. "/ranged.lua")
 
 ctf_classes.register("knight", {
 	description = "Knight",
-	pros = { "+10 HP", "+10% melee skill" },
+	pros = { "+10 HP" },
 	cons = { "-10% speed" },
 	max_hp = 30,
 	color = "#ccc",
@@ -18,7 +18,7 @@ ctf_classes.register("knight", {
 
 ctf_classes.register("shooter", {
 	description = "Shooter",
-	pros = { "+10% ranged skill", "Can use sniper rifles", "Can use grapling hooks" },
+	pros = { "+10% ranged skill", "Can use rifles", "Can use grapling hooks" },
 	cons = {},
 	speed = 1.1,
 	color = "#c60",
@@ -27,7 +27,7 @@ ctf_classes.register("shooter", {
 ctf_classes.register("medic", {
 	description = "Medic",
 	speed = 1.1,
-	pros = { "x2 regen for nearby friendlies", "Free bandages" },
+	pros = { "x2 regen for nearby friendlies" },
 	cons = { "Can't capture the flag"},
 	color = "#0af",
 })
