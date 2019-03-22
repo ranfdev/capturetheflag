@@ -52,7 +52,7 @@ function ctf_classes.update(player)
 
 	set_max_hp(player, class.max_hp)
 	ctf_classes.set_skin(player, color, class)
-	physics.set(player:get_player_name(), "ctf_Classes:speed", {
+	physics.set(player:get_player_name(), "ctf_classes:speed", {
 		speed = class.speed,
 	})
 end
