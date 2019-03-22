@@ -8,6 +8,9 @@ function ctf_classes.register(cname, def)
 	def.speed  = def.speed or 1
 	def.pros   = def.pros or {}
 	def.cons   = def.cons or {}
+	if def.can_capture == nil then
+		def.can_capture = true
+	end
 end
 
 function ctf_classes.set_skin(player, color, class)

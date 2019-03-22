@@ -57,6 +57,6 @@ end
 check_grapple("shooter:grapple_gun_loaded")
 check_grapple("shooter:grapple_gun")
 
-minetest.register_override("shooter:rifle", {
+minetest.override_item("shooter:rifle", {
 	description = "Rifle\n\nCan only be used by Shooters",
 })

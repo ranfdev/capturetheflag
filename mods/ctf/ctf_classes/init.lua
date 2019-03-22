@@ -10,25 +10,26 @@ dofile(minetest.get_modpath("ctf_classes") .. "/ranged.lua")
 
 ctf_classes.register("knight", {
 	description = "Knight",
-	pros = { "+10 HP" },
+	pros = { "+50% Health Points" },
 	cons = { "-10% speed" },
 	max_hp = 30,
+	speed = 0.90,
 	color = "#ccc",
 })
 
 ctf_classes.register("shooter", {
 	description = "Shooter",
-	pros = { "+10% ranged skill", "Can use rifles", "Can use grapling hooks" },
-	cons = {},
-	speed = 1.1,
+	pros = { "+10% ranged skill", "Rifles and grapling hooks" },
+	cons = { "Can't capture the flag" },
+	can_capture = false,
 	color = "#c60",
 })
 
 ctf_classes.register("medic", {
 	description = "Medic",
-	speed = 1.1,
+	max_hp = 10,
 	pros = { "x2 regen for nearby friendlies" },
-	cons = { "Can't capture the flag"},
+	cons = { "-50% Health Points" },
 	color = "#0af",
 })
 
@@ -72,12 +73,12 @@ local flags = {
 for _, flagname in pairs(flags) do
 	local old_func = minetest.registered_nodes[flagname].on_punch
 	local function on_punch(pos, node, player, ...)
-		if ctf_classes.get(player).name == "medic" then
+		if ctf_classes.get(player).can_capture then
 			local flag = ctf_flag.get(pos)
 			local team = ctf.player(player:get_player_name()).team
 			if not flag or not flag.team or not team or team ~= flag.team then
 				minetest.chat_send_player(player:get_player_name(),
-					"Medics can't capture the flag!")
+					"Shooters can't capture the flag!")
 				return
 			end
 		end
