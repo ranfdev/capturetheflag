@@ -1,8 +1,8 @@
 hpregen = {}
 
 hpregen.interval = tonumber(minetest.settings:get("hpregen.interval"))
-if hpregen.hpregen.interval <= 0 then
-	hpregen.hpregen.interval = 6
+if hpregen.interval <= 0 then
+	hpregen.interval = 6
 end
 hpregen.amount = tonumber(minetest.settings:get("hpregen.amount"))
 if hpregen.amount <= 0 then
