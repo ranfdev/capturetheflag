@@ -8,7 +8,7 @@ local players = {}
 
 local regen_max = 20       -- Max HP provided by one medkit
 local regen_interval = 0.5 -- Time in seconds between each iteration
-local regen_timer = 0      -- Timer to keep track of regen_interval
+local regen_timer = 0      -- Timer to keep track of hpregen.interval
 local regen_step = 1       -- Number of HP added every iteration
 
 -- Boolean function for use by other mods to check if a player is healing
@@ -74,7 +74,7 @@ ctf_flag.register_on_precapture(function()
 	return true
 end)
 
--- Called after left-click every n seconds (determined by regen_interval)
+-- Called after left-click every n seconds (determined by hpregen.interval)
 -- heals player for a total of regen_max, limited by player's max hp
 minetest.register_globalstep(function(dtime)
 	regen_timer = regen_timer + dtime
