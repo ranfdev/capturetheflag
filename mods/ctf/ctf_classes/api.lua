@@ -5,6 +5,7 @@ function ctf_classes.register(cname, def)
 	table.insert(ctf_classes.__classes_ordered, def)
 
 	def.max_hp = def.max_hp or 20
+	def.speed  = def.speed or 1
 	def.pros   = def.pros or {}
 	def.cons   = def.cons or {}
 end
@@ -51,4 +52,7 @@ function ctf_classes.update(player)
 
 	set_max_hp(player, class.max_hp)
 	ctf_classes.set_skin(player, color, class)
+	physics.set(player:get_player_name(), "ctf_Classes:speed", {
+		speed = class.speed,
+	})
 end
