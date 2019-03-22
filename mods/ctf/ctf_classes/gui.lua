@@ -1,4 +1,11 @@
-function ctf_classes.show_gui(name)
+function ctf_classes.show_gui(name, player)
+	player = player or minetest.get_player_by_name(name)
+	assert(player.get_player_name)
+	if not ctf_classes.can_change(player) then
+		minetest.chat_send_player(name, "Move closer to the flag to change classes!")
+		return
+	end
+
 	local fs = {
 		"size[9,3.2]"
 	}
@@ -40,15 +47,29 @@ function ctf_classes.show_gui(name)
 		fs[#fs + 1] = "container_end[]"
 
 		x = x + 1
-		-- if x == 0 then
-		-- 	x = 1
-		-- else
-		-- 	x = 0
-		-- 	y = y + 1
-		-- end
+		if x > 3 then
+			x = 0
+			y = y + 1
+		end
 	end
-
-	print(table.concat(fs))
 
 	minetest.show_formspec(name, "ctf_classes:select", table.concat(fs))
 end
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	if formname ~= "ctf_classes:select" then
+		return false
+	end
+
+	if not ctf_classes.can_change(player) then
+		minetest.chat_send_player(player:get_player_name(),
+				"Move closer to the flag to change classes!")
+	end
+
+	for _, class in pairs(ctf_classes.__classes_ordered) do
+		if fields["select_" .. class.name] then
+			ctf_classes.set(player, class.name)
+			return true
+		end
+	end
+end)

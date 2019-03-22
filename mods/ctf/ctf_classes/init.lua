@@ -14,8 +14,8 @@ ctf_classes.register("knight", {
 	color = "#ccc",
 })
 
-ctf_classes.register("archer", {
-	description = "Archer",
+ctf_classes.register("shooter", {
+	description = "Shooter",
 	pros = { "+10% ranged skill", "Can use sniper rifles", "Can use grapling hooks" },
 	cons = {},
 	speed = 1.1,
@@ -32,11 +32,15 @@ ctf_classes.register("medic", {
 
 minetest.register_on_joinplayer(ctf_classes.update)
 
-minetest.register_chatcommand("set_class", {
+minetest.register_chatcommand("class", {
 	func = function(name, params)
 		local player = minetest.get_player_by_name(name)
 		if not player then
 			return false, "You must be online to do this!"
+		end
+
+		if not ctf_classes.can_change(player) then
+			return false, "Move closer to the flag to change classes!"
 		end
 
 		local cname = params:trim()
@@ -55,4 +59,17 @@ minetest.register_chatcommand("set_class", {
 
 ctf_colors.set_skin = function(player, color)
 	ctf_classes.set_skin(player, color, ctf_classes.get(player))
+end
+
+local flags = {
+	"ctf_flag:flag",
+	"ctf_flag:flag_top_red",
+	"ctf_flag:flag_top_blue",
+}
+
+for _, flag in pairs(flags) do
+	local function show(_, _, player)
+		ctf_classes.show_gui(player:get_player_name(), player)
+	end
+	minetest.override_item(flag, { on_rightclick = show })
 end

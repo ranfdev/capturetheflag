@@ -26,9 +26,20 @@ function ctf_classes.get(player)
 end
 
 function ctf_classes.set(player, cname)
-	assert(ctf_classes.__classes[cname])
-	player:get_meta():set_string("ctf_classes:class", cname)
+	assert(type(cname) == "string")
+	local class = ctf_classes.__classes[cname]
+	assert(class)
+
+	local meta = player:get_meta()
+	local old = meta:get("ctf_classes:class")
+	meta:set_string("ctf_classes:class", cname)
 	ctf_classes.update(player)
+
+	if old ~= nil and old ~= cname then
+		local pname = player:get_player_name()
+		ctf.chat_send_team(ctf.player(pname).team,
+				minetest.colorize("#ABCDEF", pname .. " is now a " .. class.description))
+	end
 end
 
 local function set_max_hp(player, max_hp)
@@ -55,4 +66,33 @@ function ctf_classes.update(player)
 	physics.set(player:get_player_name(), "ctf_classes:speed", {
 		speed = class.speed,
 	})
+end
+
+local function sqdist(a, b)
+	local x = a.x - b.x
+	local y = a.y - b.y
+	local z = a.z - b.z
+	return x*x + y*y + z*z
+end
+
+local function get_flag_pos(player)
+	local tplayer = ctf.player(player:get_player_name())
+	if not tplayer or not tplayer.team then
+		return nil
+	end
+
+	local team = ctf.team(tplayer.team)
+	if team and team.flags[1] then
+		return vector.new(team.flags[1])
+	end
+	return nil
+end
+
+function ctf_classes.can_change(player)
+	local flag_pos = get_flag_pos(player)
+	if not flag_pos then
+		return false
+	end
+
+	return sqdist(player:get_pos(), flag_pos) < 25
 end

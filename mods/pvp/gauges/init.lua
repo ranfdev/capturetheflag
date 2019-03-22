@@ -33,8 +33,8 @@ function hp_bar:on_step(dtime)
 		return
 	end
 
-	local hp = math.floor(20 * wielder:get_hp() / wielder:get_properties().max_hp)
-	local breath = math.floor(20 * wielder:get_breath() / wielder:get_properties().max_breath)
+	local hp = math.floor(20 * wielder:get_hp() / wielder:get_properties().hp_max)
+	local breath = math.floor(20 * wielder:get_breath() / wielder:get_properties().breath_max)
 	self.object:set_properties({
 		textures = {
 			"health_" .. tostring(hp) .. ".png^breath_" .. tostring(breath) .. ".png",
