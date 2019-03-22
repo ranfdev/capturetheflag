@@ -5,6 +5,7 @@ ctf_classes = {
 
 dofile(minetest.get_modpath("ctf_classes") .. "/api.lua")
 dofile(minetest.get_modpath("ctf_classes") .. "/gui.lua")
+dofile(minetest.get_modpath("ctf_classes") .. "/regen.lua")
 
 ctf_classes.register("knight", {
 	description = "Knight",
