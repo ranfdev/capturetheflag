@@ -73,12 +73,18 @@ local flags = {
 for _, flagname in pairs(flags) do
 	local old_func = minetest.registered_nodes[flagname].on_punch
 	local function on_punch(pos, node, player, ...)
-		if ctf_classes.get(player).can_capture then
-			local flag = ctf_flag.get(pos)
-			local team = ctf.player(player:get_player_name()).team
-			if not flag or not flag.team or not team or team ~= flag.team then
-				minetest.chat_send_player(player:get_player_name(),
-					"Shooters can't capture the flag!")
+		local fpos = pos
+		if node.name:sub(1, 18) == "ctf_flag:flag_top_" then
+			fpos = vector.new(pos)
+			fpos.y = fpos.y - 1
+		end
+
+		if not ctf_classes.get(player).can_capture then
+			local pname = player:get_player_name()
+			local flag = ctf_flag.get(fpos)
+			local team = ctf.player(pname).team
+			if flag and flag.team and team and team ~= flag.team then
+				minetest.chat_send_player(pname, "Shooters can't capture the flag!")
 				return
 			end
 		end

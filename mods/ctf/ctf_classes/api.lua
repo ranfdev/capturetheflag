@@ -47,12 +47,17 @@ end
 
 local function set_max_hp(player, max_hp)
 	local cur_hp = player:get_hp()
-	local new_hp = cur_hp + max_hp - player:get_properties().hp_max
+	local old_max = player:get_properties().hp_max
+	local new_hp = cur_hp + max_hp - old_max
 	player:set_properties({
 		hp_max = max_hp
 	})
 
-	assert(new_hp <= max_hp)
+	if new_hp > max_hp then
+		minetest.log("error", string.format("New hp %d is larger than new max %d, old max is %d", new_hp, max_hp, old_max))
+		new_hp = max_hp
+	end
+
 	if cur_hp > max_hp then
 		player:set_hp(max_hp)
 	elseif new_hp > cur_hp then
@@ -62,7 +67,7 @@ end
 
 function ctf_classes.update(player)
 	local class = ctf_classes.get(player)
-	local color, _ = ctf_colors.get_color(ctf.player(player:get_player_name()))
+	local color = ctf_colors.get_color(ctf.player(player:get_player_name())).text
 
 	set_max_hp(player, class.max_hp)
 	ctf_classes.set_skin(player, color, class)
