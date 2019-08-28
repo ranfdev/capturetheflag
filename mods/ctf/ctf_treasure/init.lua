@@ -19,6 +19,7 @@ function ctf_treasure.get_default_treasures()
 		{"shooter:rifle",0.1,2,{1,2}},
 		{"shooter:shotgun",0.04,2,1},
 		{"shooter:grenade",0.08,2,1},
+		{"shooter:grapple_gun_loaded",0.08,2,1},
 		{"shooter:machine_gun",0.02,2,1},
 		{"shooter:ammo",0.3,2,{1,10}},
 		{"shooter:arrow_white",0.5,2,{2,18}},

@@ -33,7 +33,13 @@ ctf_classes.register("medic", {
 	color = "#0af",
 })
 
-minetest.register_on_joinplayer(ctf_classes.update)
+minetest.register_on_joinplayer(function(player)
+	ctf_classes.update(player)
+
+	if minetest.check_player_privs(player, { interact = true }) then
+		ctf_classes.show_gui(player:get_player_name())
+	end
+end)
 
 minetest.register_chatcommand("class", {
 	func = function(name, params)
